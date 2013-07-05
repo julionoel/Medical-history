@@ -1,0 +1,112 @@
+﻿{% extends 'base.html' %}
+{% block IncioActive %}active{% endblock %}
+{% comment %}
+
+Página de incio donde vamos a mostrar las últimas 5 historias actualizadas.
+Además de noticias sobre la app.
+{% endcomment %}
+
+{% block titulo %} Inicio {% endblock %}
+
+{% block encabezado %}
+<h2></h2>
+{% endblock %}
+
+{% block contenido %}
+
+<div class="row-fluid">
+
+	<div class="span6 " >
+		<div class="widget">
+			<div class="widget-header">
+				<i class="icon-signal"></i>
+				<h3>Últimos 5 historiales </h3>
+			</div>
+			<!-- /widget-header -->
+			<div class="widget-content">
+				<table class="table table-bordered table-striped table-condensed">
+					<thead>
+						<tr>
+							<th style="width: 75px;">Dni</th>
+							<th>nombre</th>
+							<th>Apellidos</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for elemento in lista %}
+						<tr>
+
+							<td><a href='/detalleHistorial/{{elemento.dni }}'>{{elemento.dni}}</a></td>
+							<td>{{elemento.nombre}}</td>
+							<td>{{elemento.apellido1}} {{elemento.apellido2}}</td>
+						</tr>
+
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+	<div class="span6" >
+		<div class="widget widget-nopad">
+			<div class="widget-header">
+				<i class="icon-list-alt"></i>
+				<h3>Noticias</h3>
+			</div>
+			<!-- /widget-header -->
+			<div class="widget-content">
+				<ul class="news-items">
+					<li>
+						<div class="news-item-detail">
+							<a href="javascript:;" class="news-item-title">Duis aute irure dolor in reprehenderit</a>
+							<p class="news-item-preview">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.
+							</p>
+						</div>
+
+						<div class="news-item-date">
+							<span class="news-item-day">08</span>
+							<span class="news-item-month">Mar</span>
+						</div>
+					</li>
+					<li>
+						<div class="news-item-detail">
+							<a href="javascript:;" class="news-item-title">Duis aute irure dolor in reprehenderit</a>
+							<p class="news-item-preview">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.
+							</p>
+						</div>
+
+						<div class="news-item-date">
+							<span class="news-item-day">08</span>
+							<span class="news-item-month">Mar</span>
+						</div>
+					</li>
+					<li>
+						<div class="news-item-detail">
+							<a href="javascript:;" class="news-item-title">Duis aute irure dolor in reprehenderit</a>
+							<p class="news-item-preview">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.
+							</p>
+						</div>
+
+						<div class="news-item-date">
+							<span class="news-item-day">08</span>
+							<span class="news-item-month">Mar</span>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+			<!-- /widget-content -->
+
+		</div>
+		<!-- /widget -->
+		
+		
+	</div>
+
+</div>
+
+{% endblock %}

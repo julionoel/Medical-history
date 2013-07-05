@@ -1,0 +1,400 @@
+﻿{% extends 'base.html'%}
+
+{% block extra_head %}
+
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}datepicker/css/datepicker.css">
+<script src="{{ STATIC_URL }}datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="https://raw.github.com/makeusabrew/bootbox/master/bootbox.min.js"></script>
+
+<script>
+	$(function() {
+		window.prettyPrint && prettyPrint();
+
+		$('#dp').datepicker();
+		$('#dp1').datepicker();
+
+		$('#collapseOne').collapse({
+			toggle : true
+		})
+
+		cargaPestaña("{{tipoNota}}");
+		
+		 // $("a.confirm").click(function(e) {
+         	// e.preventDefault();
+         	// bootbox.confirm("Are you sure?", ConfirmDelete($("a.confirm")) );
+         // });
+         
+        $("a.confirm").click(function(e) {
+            e.preventDefault();
+            bootbox.confirm("Are you sure?", function(confirmed) {
+              
+              if(confirmed){
+              	ConfirmDelete($("a.confirm"));
+              }
+               
+            });
+        });
+
+
+					
+	});
+
+	function ConfirmDelete( deleteObj ) {
+    	 var url = deleteObj.attr('href');
+		 window.location = url;
+	} 
+
+	function cargaPestaña(tipo) {
+		
+		if(tipo == 1){
+			$('#myTab a[href="#notas"]').tab('show');
+				
+		}else if(tipo == 2){
+			$('#myTab a[href="#antecedentes"]').tab('show');
+		
+		}else if(tipo == 3){
+			$('#myTab a[href="#intervenciones"]').tab('show');
+		
+		}else if(tipo == 4){
+			$('#myTab a[href="#otros"]').tab('show');
+			
+		}else if(tipo == 5){
+			$('#myTab a[href="#adjuntos"]').tab('show');
+		}
+		
+	}
+
+	function ventanaModal(titulo, texto, idNota, action) {
+
+		var ventana = document.getElementById("ventanaModal");
+
+		document.getElementById("titulo").textContent = titulo;
+
+		if (titulo == "Nuevo Antecedente") {
+			document.getElementById("form").tipo.value = 2;
+		}else if(titulo == "Nueva Intervención") {
+			document.getElementById("form").tipo.value = 3;
+		}else if(titulo == "Nueva información") {
+			document.getElementById("form").tipo.value = 4;
+		}else {
+			document.getElementById("form").tipo.value = 1;
+		}
+		
+		
+		
+
+		document.getElementById("texto").textContent = texto;
+		document.getElementById("form").action = action;
+		document.getElementById("form").idNota.value = idNota;
+
+		$('#ventanaModal').modal({
+		})
+
+		document.getElementById("texto").focus();
+
+	}
+	
+	</script>
+<style type="text/css" media="screen">
+	#id_texto {
+		width: 530px;
+		height: 200px;
+	}
+
+</style>
+
+{% endblock %}
+
+{% block HistoriasActive %}active{% endblock %}
+{% block titulo %} Usuarios registrados {% endblock %}
+
+{% block encabezado %}
+
+{% endblock %}
+
+{% block contenido %}
+
+<!-- Datos personales
+================================================== -->
+{% if errorsNota %}
+<div class="alert alert-error">
+	<button class="close" data-dismiss="alert" type="button">
+		&times;
+	</button>
+	<strong>Error! creando la nota:</strong>
+	<br/>
+	<em>{% for field in errorsNota %}
+
+	{{ field.label_tag }} ,{{ field.errors }}
+	{% endfor %} </em>
+</div>
+{% endif %}
+
+{% if historial %}
+
+<div class="page-header">
+	<h3>Datos Personales
+	<div class="alineadoDerecha">
+		<a class="btn btn-mini btn-info" href="/editarHistorial/{{historial.dni }}"> <i class="icon-pencil icon-white"></i> Editar</a>
+		{% if user.get_profile.is_admin %}
+		<a class="btn btn-mini btn-danger" href="/eliminarHistorial/{{historial.dni }}"> <i class="icon-remove icon-white"></i>Eliminar</a>
+		{% endif %}
+	</div></h3>
+
+</div>
+<div>
+	<div class="well">
+		<h1>{{historial.nombre}} {{historial.apellido1}} {{historial.apellido2}}</h1>
+		<div class="row">
+			<div class="span3 columns">
+				<strong>Dni:</strong> {{historial.dni }}
+				<br />
+				<strong>Fecha Nacimiento :</strong> {{historial.fechaNacimiento}}
+				<br />
+
+			</div>
+			<div class="span3 columns">
+				<strong>Sexo: </strong>
+				<span > {%if historial.sexo == 1%}Femenino{% endif %}
+					{%if historial.sexo == 0%}Masculino{% endif %} </span>
+				<br />
+				<strong>Profesión:</strong> {{historial.profesion }}
+				<br />
+			</div>
+			<div class="span3 columns">
+				<strong>Compañía :</strong> {{historial.compania }}
+				<br />
+				<strong>Teléfono: </strong><span >{{historial.telefono }} </span>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<!-- Tabs
+================================================== -->
+<div class="page-header">
+	<h3>Otros Datos</h3>
+</div>
+<div class="row">
+	<div class="span10 columns">
+		<ul id="myTab" class="nav nav-tabs">
+			<li class="active">
+				<a href="#notas" data-toggle="tab"> Notas</a>
+			</li>
+			<li>
+				<a href="#antecedentes" data-toggle="tab">Antecedentes</a>
+			</li>
+			<li>
+				<a href="#intervenciones" data-toggle="tab">Intervenciones</a>
+			</li>
+			<li>
+				<a href="#otros" data-toggle="tab">Otros</a>
+			</li>
+			<li>
+				<a href="#adjuntos" data-toggle="tab">Documentos Adjuntos</a>
+			</li>
+		</ul>
+
+		<div id="myTabContent" class="tab-content">
+			<div class="tab-pane active" id="notas">
+				<a  class="btn btn-info btn-mini" href="javascript:ventanaModal('Nueva Nota','','','/nuevaNota/')"> <i class=" icon-plus-sign icon-white"></i> Nota</a>
+				</br>
+				</br>
+				<table class="table ">
+					<tbody>
+						{% for nota in notas %}
+						<tr>
+							<td>
+							<blockquote>
+								<h5 class="capitalize">{{nota.fecha|date:"SHORT_DATE_FORMAT"}} - <strong>{{nota.autor.first_name|capfirst}}</strong></h5>
+							</blockquote>
+							<p>
+								{{nota.texto}}
+							</p></td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{nota.id}}"> <i class="icon-remove"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a  class="confirm" href="/borrarNota/{{historial.dni}}/{{nota.id}}"> <i class="icon-remove"></i></a> {% endif%}
+							{% endif%} </td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a href="javascript:ventanaModal('Editar Nota','{{nota.texto}}','{{nota.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a href="javascript:ventanaModal('Editar Nota','{{nota.texto}}','{{nota.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% endif%}
+							{% endif%} </td>
+						</tr>
+						{% endfor %}
+				</table>
+			</div>
+			<div class="tab-pane fade" id="antecedentes">
+				<a  class="btn btn-info btn-mini" href="javascript:ventanaModal('Nuevo Antecedente','','','/nuevaNota/')"> <i class=" icon-plus-sign icon-white"></i> Antecedente</a>
+				</br>
+				</br>
+				<table class="table ">
+					<tbody>
+						{% for antecedente in antecedentes %}
+						<tr>
+							<td>
+							<blockquote>
+								<h5 class="capitalize">{{antecedente.fecha|date:"SHORT_DATE_FORMAT"}} - <strong>{{antecedente.autor.first_name|capfirst}}</strong></h5>
+							</blockquote>
+							<p>
+								{{antecedente.texto}}
+							</p></td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{antecedente.id}}"> <i class="icon-remove"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{antecedente.id}}"> <i class="icon-remove"></i></a> {% endif%}
+							{% endif%} </td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a  href="javascript:ventanaModal('Editar Antecedente','{{antecedente.texto}}','{{antecedente.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a  href="javascript:ventanaModal('Editar Antecedente','{{antecedente.texto}}','{{antecedente.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% endif%}
+							{% endif%} </td>
+						</tr>
+						{% endfor %}
+				</table>
+			</div>
+			<div class="tab-pane fade" id="intervenciones">
+				<a  class="btn btn-info btn-mini" href="javascript:ventanaModal('Nueva Intervención','','','/nuevaNota/')"> <i class=" icon-plus-sign icon-white"></i> Intervención</a>
+				</br>
+				</br>
+				<table class="table ">
+					<tbody>
+						{% for intervencion in intervenciones %}
+						<tr>
+							<td>
+							<blockquote>
+								<h5 class="capitalize">{{intervencion.fecha|date:"SHORT_DATE_FORMAT"}} - <strong>{{intervencion.autor.first_name|capfirst}}</strong></h5>
+							</blockquote>
+							<p>
+								{{intervencion.texto}}
+							</p></td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{intervencion.id}}"> <i class="icon-remove"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{intervencion.id}}"> <i class="icon-remove"></i></a> {% endif%}
+							{% endif%} </td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a  href="javascript:ventanaModal('Editar Antecedente','{{intervencion.texto}}','{{intervencion.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a  href="javascript:ventanaModal('Editar Antecedente','{{intervencion.texto}}','{{intervencion.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% endif%}
+							{% endif%} </td>
+						</tr>
+						{% endfor %}
+				</table>
+			</div>
+			<div class="tab-pane fade" id="otros">
+				<a  class="btn btn-info btn-mini" href="javascript:ventanaModal('Nueva información','','','/nuevaNota/')"> <i class=" icon-plus-sign icon-white"></i> Más Info</a>
+				</br>
+				</br>
+				<table class="table ">
+					<tbody>
+						{% for otro in otros %}
+						<tr>
+							<td>
+							<blockquote>
+								<h5 class="capitalize">{{otro.fecha|date:"SHORT_DATE_FORMAT"}} - <strong>{{otro.autor.first_name|capfirst}}</strong></h5>
+							</blockquote>
+							<p>
+								{{otro.texto}}
+							</p></td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{otro.id}}"> <i class="icon-remove"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{otro.id}}"> <i class="icon-remove"></i></a> {% endif%}
+							{% endif%} </td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a  href="javascript:ventanaModal('Editar Antecedente','{{otro.texto}}','{{otro.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a  href="javascript:ventanaModal('Editar Antecedente','{{otro.texto}}','{{otro.id}}','/editarNota/')"> <i class="icon-pencil"></i></a> {% endif%}
+							{% endif%} </td>
+						</tr>
+						{% endfor %}
+				</table>
+			</div>
+			<div class="tab-pane fade" id="adjuntos">
+				<a  class="btn btn-info btn-mini" data-toggle="modal" href="#ventanaModalAdjunto"><i class=" icon-file icon-white"></i> Adjuntar</a>				
+				
+				
+				</br>
+				</br>
+				<table class="table ">
+					<tbody>
+						{% for adjunto in adjuntos %}
+						<tr>
+							<td>
+							<blockquote>
+								<h5 class="capitalize">{{adjunto.fecha|date:"SHORT_DATE_FORMAT"}} - <strong>{{adjunto.autor.first_name|capfirst}}</strong></h5>
+							</blockquote>
+							<p>
+								{{adjunto.texto|lower}}
+							</p></td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{nota.id}}"> <i class="icon-remove"></i></a> {% else %}
+							{% if nota.autor == user and user.get_profile.is_doctor%} <a class="confirm" href="/borrarNota/{{historial.dni}}/{{nota.id}}"> <i class="icon-remove"></i></a> {% endif%}
+							{% endif%} </td>
+							<td style="width: 35px;"> {% if user.get_profile.is_admin %} <a href="#"> <i class="icon-pencil"></i></a> {% else %}
+							{% if nota.autor == user %}
+
+							{% if user.get_profile.is_doctor %} <a href="#"> <i class="icon-pencil"></i></a> {% endif%}
+							{% endif%}
+							{% endif%} </td>
+						</tr>
+						{% endfor %}
+				</table>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<br />
+
+<!-- Modal Notas
+================================================== -->
+<div class="modal hide" id="ventanaModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">
+			×
+		</button>
+		<h3 id="titulo">Añadir nueva nota</h3>
+	</div>
+	<form id="form" class="well form-search center" method="post">
+		{% csrf_token %}
+		<div class="control-group" >
+			<div class="controls control-label" for="textarea">
+				<textarea class="input-xlarge"  style="width:530px;min-height:200px; height:100%;" id="texto" rows="5" cols="100" name="texto"> dsadsad</textarea>
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Cancelar</a>
+			<button type="submit" class="btn btn-primary" value='Guardar'>
+				Guardar
+			</button>
+		</div>
+		<input type="hidden" name="historial" value="{{historial.id}}" />
+		<input type="hidden" name="dni" value="{{historial.dni}}"/>
+		<input type="hidden" name="autor" value="{{user.id}}"/>
+		<input type="hidden" name="idNota" />
+		<input type="hidden" name="tipo" value"{{tipoNota}}" />
+
+	</form>
+</div>
+
+<!-- Modal Adjuntos
+================================================== -->
+<!-- 
+<div class="modal hide" id="ventanaModalAdjunto">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">
+			×
+		</button>
+		<h3 id="tituloAdjunto">Nuevo Adjunto</h3>
+	</div>
+	<form id="formAdjunto" class="well form-search center" method="post" action="/adjuntaNota/">{% csrf_token %}
+		{{adjuntoForm.as_p}}
+
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Cancelar</a>
+			<button type="submit" class="btn btn-primary" value='Guardar'>
+				Guardar
+			</button>
+		</div>
+		<input type="hidden" name="historial" value="{{historial.id}}" />
+		<input type="hidden" name="dni" value="{{historial.dni}}"/>
+		<input type="hidden" name="autor" value="{{user.id}}"/>
+		<input type="hidden" name="idNota" />
+		<input type="hidden" name="tipo" value"{{5}}" />
+
+	</form>
+</div>-->
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,154 @@
+﻿﻿<!DOCTYPE html>
+{% load bootstrap_toolkit %}
+<html lang='es'>
+	<head>
+		<meta charset="utf-8">
+		<title>Historias Clínicas - Cemer {% block titulo %}{% endblock%}</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		
+		
+		
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css">
+
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/docs.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/WB00U99JJ/signin.css" >
+		
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+	
+
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+
+		<!--
+
+		<link href="http://wbpreview.com/previews/WB0087188/assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://wbpreview.com/previews/WB0087188/assets/css/style.css" rel="stylesheet">
+		<link href="http://wbpreview.com/previews/WB0087188/assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css">
+		<link rel="stylesheet" type="text/css" href="http://bootswatch.com/cerulean/bootstrap.min.css">
+
+		<link href="http://wbpreview.com/previews/WB00U99JJ/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://wbpreview.com/previews/WB00U99JJ/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+		<link href="http://wbpreview.com/previews/WB00U99JJ/css/font-awesome.css" rel="stylesheet">
+		<link href="http://wbpreview.com/previews/WB00U99JJ/css/base-admin.css" rel="stylesheet">
+		<link href="http://wbpreview.com/previews/WB00U99JJ/css/base-admin-responsive.css" rel="stylesheet">
+
+		-->
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.7.1.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+
+		{% block style_css %}{% endblock%}
+
+		{% block extra_head %}{% endblock %}
+		{{ form.media }}
+	</head>
+
+	<body>
+
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="/">Historias Clínicas</a>
+					<div class="nav-collapse">
+						<ul class="nav pull-right">
+							<li class="divider-vertical"></li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-user icon-white"></i> Usuario{{usuario.username|capfirst}} <b class="caret"></b> </a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="/cuentaUsuario/">Cuenta Usuario</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="/logout/">Salir</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="span2">
+					<ul class="nav nav-list well">
+						<li class="nav-header">
+							Menu
+						</li>
+
+						<li class="{% block IncioActive %}{% endblock %}">
+							<a href="/"><i class="icon-home"></i> Inicio</a>
+						</li>
+
+						<li class="{% block HistoriasActive %}{% endblock %}">
+							<a href="/historiales"><i class="icon-book "></i> Historiales </a>
+						</li>
+						<li class="{% block NuevaHistoriaActive %}{% endblock %}">
+							<a href="/nuevoHistorial"><i class="icon-plus-sign"></i> Nuevo Historial</a>
+						</li>
+						<!--
+						<li >
+						<a href="/templates/6/tasks"><i class="icon-check "></i> Tasks</a>
+						</li>
+						<li >
+						<a href="/templates/6/portfolio"><i class="icon-th "></i> Gallery</a>
+						</li>
+						-->
+						
+						<li class="divider"></li>
+						<li class="nav-header">
+							Opciones
+						</li>
+						<li >
+							<a href="/cuentaUsuario/"><i class="icon-user "></i> Cuenta Usuario</a>
+							
+						</li>
+						
+						{% if user.get_profile.is_admin %}
+						<li class="divider"></li>
+						<li class="nav-header">
+							Admin
+						</li>
+						<li >
+							<a href="#"><i class="icon-cog "></i> Configuración</a>
+						</li>
+						<li >
+							<a href="#"><i class="icon-flag "></i> Ayuda</a>
+						</li>
+						{% endif%}
+					</ul>
+				</div>
+				<div class="span10">
+					{%block encabezado %}{% endblock%}
+					{% block contenido %}{% endblock%}
+
+				</div>
+			</div>
+
+			<!--
+			<div class="alert alert-success">
+			<a class="close" data-dismiss="alert" href="#">×</a>
+			<strong>Welcome back!</strong> You have been successfully signed in.
+			</div>
+
+			<footer>
+			<p>
+			Cemer Villamartin S.L.U. © 2012
+			</p>
+			</footer>
+			</div>
+			-->
+
+	</body>
+</html>

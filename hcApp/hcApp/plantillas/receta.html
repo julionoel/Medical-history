@@ -1,0 +1,27 @@
+﻿{% extends 'base.html' %}
+{% block titulo %} {{dato.titulo}} {% endblock %}
+
+{% block encabezado %} 
+	<h1>{{dato.titulo|title}}</h1>
+{% endblock %}
+
+{% block contenido %} 
+	
+	<img src='{{MEDIA_URL}}{{dato.imagen}}' width="200" />
+	<h3>Ingredientes</h3>
+	<p>{{dato.ingredientes}} </p>
+	<h3>Preparación</h3>
+	<p>{{dato.prepacion}} </p>
+	
+	<h3>Comentarios</h3>
+	  	
+	{% for comentario in comentarios %}
+		<p>{{comentario.texto}} -- {{comentario.usuario}}<p>
+	{% empty %}
+		<p>Sin comentarios</p>
+	{% endfor %}
+	
+		<p>Registrado el {{ dato.tiempo_registro|date:'SHORT_DATETIME_FORMAT' }}  por  {{dato.usuario}} </p> 
+	
+	
+{% endblock %}

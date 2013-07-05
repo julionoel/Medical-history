@@ -1,0 +1,38 @@
+footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; text-align: center;}
+tr.skipped { color: #ccc; text-decoration: line-through; }
+
+
+table th, .table td{color: #333333;
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+font-size: 13px;
+line-height: 18px;
+}
+
+h2 {padding-bottom:0px; }
+.capitalize {text-transform: capitalize;}
+
+
+.espacioDerecho {margin-right: 30px; }
+.espacioIzquierdo {margin-left: 30px; }
+.espacioIzquierdoInv {margin-left: -30px; }
+.alineadoDerecha{ float:right; padding-top: 2px;padding-bottom: 2px;}
+
+	
+textarea,input[type="text"],input[type="password"],input[type="datetime"],	input[type="datetime-local"],	input[type="date"],
+input[type="month"],input[type="time"],	input[type="week"],	input[type="number"],	input[type="email"],input[type="url"],
+input[type="search"],	input[type="tel"],	input[type="color"],.uneditable-input { height: 25px;}
+
+input[class*="span"],select[class*="span"],textarea[class*="span"],.uneditable-input[class*="span"],.row-fluid input[class*="span"],
+.row-fluid select[class*="span"],.row-fluid textarea[class*="span"],.row-fluid .uneditable-input[class*="span"] { height: 26px;}
+
+@media (max-width: 980px) {
+
+ul.lost li { text-decoration: line-through;}
+page-header2 {border-bottom:40px solid #838383;}
+.etiqueta {color: #FFFFFF;}
+
+ 
+
+
+
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Login - Base Admin</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+    
+   	
+   	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/docs.css">
+   	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/WB00U99JJ/signin.css" >
+   	
+   	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css">
+   	
+   	   	
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+	
+	
+	
+	
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.7.1.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+
+</head>
+
+<body>
+	
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+         <a class="brand" href="/">Historias Clínicas</a>
+        </div>
+      </div>
+    </div>
+
+
+
+
+<div class="account-container">
+	
+	<div class="content clearfix">
+		 <p style="color: red;">
+            {% if error %}
+                {{ error }}
+            {% endif %}
+        </p>
+		<form method="post">{% csrf_token %}
+		
+			<h2>Login</h2>		
+			
+			<div class="login-fields">
+				
+				</p>
+				<!-- <p>Sign in using your registered account:</p> -->
+				
+				<div class="field">
+					<label for="username">Username:</label>
+					<input type="text" id="username" name="username" value="" placeholder="Usuario" class="login username-field" />
+				</div> <!-- /field -->
+				
+				<div class="field">
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field"/>
+				</div> <!-- /password -->
+				
+			</div> <!-- /login-fields -->
+			
+			<div class="login-actions">
+				
+				<span class="login-checkbox">
+					<input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" />
+					<label class="choice" for="Field">Recordar</label>
+				</span>
+									
+				<button class="button btn btn-warning btn-large">Entrar</button>
+				
+			</div> <!-- .actions -->
+								
+		</form>
+		
+	</div> <!-- /content -->
+	
+</div> <!-- /account-container -->
+
+
+<!-- Text Under Box -->
+<div class="login-extra"> No tienes una cuenta? <a href="./signup.html">Registrar</a><br/>
+	 Has olvidado la <a href="#">Password</a>
+</div> <!-- /login-extra -->
+
+
+</body>
+</html>
