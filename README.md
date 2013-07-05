@@ -13,7 +13,7 @@ Django test application to manage medical history
 $ http://jnjimenez.alwaysdata.net/
 ```
 
-you can access the next users
+You can access the next users:
 * demo/demo
 * admin / admin
 
